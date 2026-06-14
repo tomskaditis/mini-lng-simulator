@@ -258,7 +258,6 @@
       <g class="ucell" data-info="BURCK">
         <rect class="unit" id="u-bog" x="75" y="400" width="145" height="78" rx="9"/>
         <circle cx="147" cy="439" r="14" fill="none" stroke="#33526f" stroke-width="2"/>
-        <g id="rot-bog"><path class="comp-rotor" d="M147,427 L147,451 M135,439 L159,439" stroke="#f3863b" stroke-width="3" style="display:none"/></g>
         <text x="147" y="422" text-anchor="middle" class="ulabel" font-size="12">Cargo Compressor</text>
         <text x="147" y="470" text-anchor="middle" class="usub">2-stage · BOG</text>
       </g>
@@ -274,7 +273,6 @@
       <g class="ucell" data-info="MRC">
         <rect class="unit" id="u-mcr" x="1180" y="520" width="170" height="110" rx="9"/>
         <circle cx="1265" cy="575" r="16" fill="none" stroke="#33526f" stroke-width="2"/>
-        <g id="rot-mcr"><path class="comp-rotor" d="M1265,562 L1265,588 M1252,575 L1278,575" stroke="#3f7fe0" stroke-width="3" style="display:none"/></g>
         <text x="1265" y="544" text-anchor="middle" class="ulabel">MCR Compressor</text>
         <text x="1265" y="618" text-anchor="middle" class="usub">+ oil separators</text>
       </g>
@@ -297,7 +295,6 @@
       <g class="ucell" data-info="REFC">
         <rect class="unit" id="u-ref" x="520" y="730" width="160" height="56" rx="9"/>
         <circle cx="552" cy="758" r="13" fill="none" stroke="#33526f" stroke-width="2"/>
-        <g id="rot-ref"><path class="comp-rotor" d="M552,747 L552,769 M541,758 L563,758" stroke="#28c46a" stroke-width="3" style="display:none"/></g>
         <text x="612" y="753" text-anchor="middle" class="ulabel" font-size="12">Refrigerant Comp.</text>
         <text x="612" y="770" text-anchor="middle" class="usub">propylene (R1270)</text>
       </g>
@@ -309,7 +306,6 @@
       <g class="ucell" data-info="SWP">
         <rect class="unit" id="u-sw" x="20" y="730" width="150" height="58" rx="9"/>
         <circle cx="50" cy="759" r="13" fill="none" stroke="#33526f" stroke-width="2"/>
-        <g id="rot-sw"><path class="comp-rotor" d="M50,748 L50,770 M39,759 L61,759" stroke="#2bb3e0" stroke-width="3" style="display:none"/></g>
         <text x="112" y="754" text-anchor="middle" class="ulabel" font-size="12.5">Seawater Pumps</text>
         <text x="112" y="771" text-anchor="middle" class="usub">cooling water</text>
       </g>
@@ -435,8 +431,6 @@ function render(){
     if(sys==='lng') on=S.bog&&S.mcr;
     p.classList.toggle('flow',on);
   });
-  for(const [r,sys] of [['#rot-sw','sw'],['#rot-ref','ref'],['#rot-mcr','mcr'],['#rot-bog','bog']])
-    $(r).firstElementChild.style.display=S[sys]?'block':'none';
   setLive('#u-sw',S.sw,'var(--sw)'); setLive('#u-ref',S.ref,'var(--ref)'); setLive('#u-pcon',S.ref&&S.sw,'var(--sw)');
   setLive('#u-mrp',S.mcr&&S.sw,'var(--sw)'); setLive('#u-mrd',S.mcr&&S.ref,'var(--ref)');
   setLive('#u-mcr',S.mcr,'var(--mcr)'); setLive('#u-LS',S.mcr,'var(--mcr)');
@@ -509,7 +503,7 @@ $('#reset').addEventListener('click',()=>{Object.keys(S).forEach(k=>S[k]=false);
 $('#auto').addEventListener('click',()=>{
   const seq=['sw','ref','mcr','bog']; let i=0;
   logmsg('▶ Auto start sequence…');
-  (function step(){ if(i>=seq.length)return; if(!S[seq[i]])toggle(seq[i]); i++; setTimeout(step,1400); })();
+  (function step(){ if(i>=seq.length)return; if(!S[seq[i]])toggle(seq[i]); i++; setTimeout(step,5000); })();
 });
 logmsg('Ready. Press ▶ Auto start sequence, or start the seawater pumps yourself.');
 render();
